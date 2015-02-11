@@ -1,0 +1,31 @@
+{
+  "name": "phanan/remote",
+  "description": "Bringing the Remote library back to Laravel 5.",
+  "version": "dev-master",
+  "keywords": [
+    "laravel",
+    "remote",
+    "ssh"
+  ],
+  "homepage": "https://github.com/phanan/remote",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Phan An",
+      "email": "me@phanan.net",
+      "homepage": "http://phanan.net"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "phpseclib/phpseclib": "0.3.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "PhanAn\\Remote\\": "src"
+    }
+  }
+}
