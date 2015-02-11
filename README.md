@@ -60,6 +60,9 @@ class RemoteController extends Controller {
     {
         $connection = new Remote();
 
+        // Of course you can specify an configured environment name, like this
+        // $connection = new Remote('staging');
+
         // Create a file with some dummy content
         $connection->put('dodge', 'Much remote so convenience wow.');
 
