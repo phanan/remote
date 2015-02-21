@@ -44,10 +44,9 @@ Look for a `remote.php` file under your `config` directory and modify it to fit 
 
 ## Usage
 
-Using `Remote` is very simple: Just initialize a `PhanAn\Remote\Remote` object, says `$connection`. You don't even need to specify an argument -- `Remote` will pick the default configuration for you, and log you in.
+Using `Remote` is very simple: Just initialize a `PhanAn\Remote\Remote` object, say `$connection`. You don't even need to specify an argument – `Remote` will pick the default configuration for you, and log you in.
 
-
-Here's where the magic happens. Literally, `Remote` makes use of the magic function `__call()` to pass all unrecognized methods to the `phpseclib\Net\SFTP` object underneath. Which means, you can call any `phpseclib\Net\SFTP` method directly on a `Remote` object:
+Here's where the magic happens. Literally. `Remote` makes use of the magic function `__call()` to pass all unrecognized methods to the `phpseclib\Net\SFTP` object underneath. Which means, you can call any `phpseclib\Net\SFTP` method directly on a `Remote` object:
 
 ``` php
 <?php namespace App\Http\Controllers;
@@ -63,11 +62,18 @@ class RemoteController extends Controller {
         // Of course you can specify an configured environment name, like this
         // $connection = new Remote('staging');
 
+        // All methods below are from phpseclib\Net\SFTP, not Remote itself
+        
         // Create a file with some dummy content
-        $connection->put('dodge', 'Much remote so convenience wow.');
+        $connection->put('doge', 'Much remote so convenience wow.');
 
-        // List a dir
-        $connection->exec('ls -a');
+        // Execute a command
+        $dir_content = $connection->exec('ls -a');
+
+        // Get some standard error
+        if ($error = $connection->getStdError()) {
+            throw new \Exception("Houston, we have a problem: $error");
+        }
     }
 
 }
