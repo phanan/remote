@@ -88,4 +88,4 @@ Write tests.
 
 ## License
 
-MIT @ phanan.
+MIT © [Phan An](http://phanan.net)
