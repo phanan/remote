@@ -1,14 +1,11 @@
 # Remote [![Build Status](https://travis-ci.org/phanan/remote.svg?branch=master)](https://travis-ci.org/phanan/remote)
-
 *Remote* is a simple package that brings the ability to do remote connections back into Laravel 5. This package makes use of the awesome [phpseclib](https://github.com/phpseclib/phpseclib) behind the scene.
 
 ## Requirements
-
 * PHP >= 5.4
 * Anything required by phpseclib
 
 ## Installation
-
 First, require `phanan/remote` into your `composer.json` and run `composer update`.
 
 ``` 
@@ -43,7 +40,6 @@ Look for a `remote.php` file under your `config` directory and modify it to fit 
 
 
 ## Usage
-
 Using `Remote` is very simple: Just initialize a `PhanAn\Remote\Remote` object, say `$connection`. You don't even need to specify an argument – `Remote` will pick the default configuration for you, and log you in.
 
 Here's where the magic happens. Literally. `Remote` makes use of the magic function `__call()` to pass all unrecognized methods to the `phpseclib\Net\SFTP` object underneath. Which means, you can call any `phpseclib\Net\SFTP` method directly on a `Remote` object:
@@ -82,10 +78,5 @@ class RemoteController extends Controller {
 
 Check phpseclib's official [SFTP Feature List](http://phpseclib.sourceforge.net/sftp/intro.html) for what you can do.
 
-## Todo
-
-Write tests.
-
 ## License
-
 MIT © [Phan An](http://phanan.net)
