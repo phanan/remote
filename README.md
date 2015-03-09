@@ -1,4 +1,4 @@
-# Remote
+# Remote [![Build Status](https://travis-ci.org/phanan/remote.svg?branch=master)](https://travis-ci.org/phanan/remote)
 
 *Remote* is a simple package that brings the ability to do remote connections back into Laravel 5. This package makes use of the awesome [phpseclib](https://github.com/phpseclib/phpseclib) behind the scene.
 
