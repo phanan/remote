@@ -68,8 +68,6 @@ class Remote {
                 $key->setPassword($phrase);
             }
 
-            // TODO: Use Laravel's FileSystem function instead?
-            // TODO: Check if key file exists
             $key->loadKey(file_get_contents($this->_config('key')));
         } else {
             // Password is less preferred, but anyway...
