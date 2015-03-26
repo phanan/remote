@@ -42,7 +42,7 @@ class Remote {
             throw new \InvalidArgumentException("No configuration found for `{$this->env}` server.");
         }
 
-        $this->ssh = new Net_SFTP($this->_config('host'), $this->_config('port'));
+        $this->ssh = new Net_SFTP($this->config('host'), $this->config('port'));
 
         if ($auto_login) {
             $this->login();    
@@ -60,21 +60,21 @@ class Remote {
             return;
         }
 
-        if ($this->_config('key')) {
+        if ($this->config('key')) {
             // We prefer logging in via keys
             $key = new Crypt_RSA();
 
-            if ($phrase = $this->_config('keyphrase')) {
+            if ($phrase = $this->config('keyphrase')) {
                 $key->setPassword($phrase);
             }
 
-            $key->loadKey(file_get_contents($this->_config('key')));
+            $key->loadKey(file_get_contents($this->config('key')));
         } else {
             // Password is less preferred, but anyway...
-            $key = $this->_config('password');
+            $key = $this->config('password');
         }
 
-        if ( ! $this->in = $this->ssh->login($this->_config('username'), $key)) {
+        if ( ! $this->in = $this->ssh->login($this->config('username'), $key)) {
             throw new \Exception('Failed to log in.');
         }
     }
@@ -85,7 +85,7 @@ class Remote {
      * @param  [type] $key [description]
      * @return [type]      [description]
      */
-    private function _config($key)
+    private function config($key)
     {
         return config("remote.connections.{$this->env}.$key", NULL);
     }
