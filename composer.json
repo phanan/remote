@@ -1,7 +1,6 @@
 {
   "name": "phanan/remote",
   "description": "Bringing the Remote library back to Laravel 5.",
-  "version": "dev-master",
   "keywords": [
     "laravel",
     "remote",
