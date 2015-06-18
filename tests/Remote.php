@@ -5,6 +5,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Config\Repository;
 use PhanAn\Remote\Remote;
 use Net_SFTP;
+use Exception;
 
 class RemoteTest extends \PHPUnit_Framework_TestCase {
 
@@ -41,12 +42,16 @@ class RemoteTest extends \PHPUnit_Framework_TestCase {
 
     public function testLogin()
     {
+        $msg = '';
+
         try {
             $this->remote = new Remote('staging');
-        } catch (\Exception $e) {
-            // we expect the login to fail
-            $this->assertStringStartsWith('Cannot connect to', $e->getMessage());
+        } catch (Exception $e) {
+            $msg = $e->getMessage();
         }
+
+        // we expect the login to fail
+        $this->assertStringStartsWith('Cannot connect to', $msg);
     }
 
 }
