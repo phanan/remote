@@ -1,12 +1,18 @@
-<?php namespace PhanAn\Remote;
+<?php 
+
+namespace PhanAn\Remote;
 
 use Net_SFTP;
 use Crypt_RSA;
+use Exception;
+use InvalidArgumentException;
 
-class Remote {
+class Remote 
+{
 
     /**
      * Name of the connection/environment
+     * 
      * @see  config/remote.php
      * @var string
      */
@@ -14,32 +20,34 @@ class Remote {
 
     /**
      * The SSH object. The main horse. The unsung hero.
-     * @var Net_SFTP
+     * 
+     * @var \Net_SFTP
      */
     private $ssh;
 
     /**
      * Are we in yet?
+     * 
      * @var boolean
      */
     private $in = FALSE;
 
     /**
-     * Initializes a Remote object
-     * @param string  $connection_name Name of the connection
-     * @see config/remote.php.
+     * Initialize a Remote object.
+     * 
+     * @param string  $connection_name Name of the connection. See config/remote.php
      * @param boolean $auto_login      Should we try logging in right away? 
      */
     public function __construct($connection_name = NULL, $auto_login = TRUE)
     {
-        if ( ! $connection_name) {
+        if (!$connection_name) {
             $connection_name = config('remote.default');
         }
 
         $this->env = $connection_name;
 
-        if ( ! config("remote.connections.{$this->env}")) {
-            throw new \InvalidArgumentException("No configuration found for `{$this->env}` server.");
+        if (!config("remote.connections.{$this->env}")) {
+            throw new InvalidArgumentException("No configuration found for `{$this->env}` server.");
         }
 
         $this->ssh = new Net_SFTP($this->config('host'), $this->config('port'));
@@ -50,8 +58,9 @@ class Remote {
     }
 
     /**
-     * Logs into the server
-     * @return [type] [description]
+     * Log into the server.
+     * 
+     * @return void
      */
     public function login()
     {
@@ -74,26 +83,27 @@ class Remote {
             $key = $this->config('password');
         }
 
-        if ( ! $this->in = $this->ssh->login($this->config('username'), $key)) {
-            throw new \Exception('Failed to log in.');
+        if (!$this->in = $this->ssh->login($this->config('username'), $key)) {
+            throw new Exception('Failed to log in.');
         }
     }
 
     /**
-     * Gets a config value of the current env.
+     * Get a config value of the current env.
      * Just a tiny helper so that we don't need to check if a key is set.
-     * @param  [type] $key [description]
-     * @return [type]      [description]
+     * 
+     * @param  string $key The configuration key
+     * @return mixed
      */
     private function config($key)
     {
         return config("remote.connections.{$this->env}.$key", NULL);
     }
 
-
     /**
-     * Gets the SSH connection
-     * @return [type] [description]
+     * Get the SSH connection.
+     * 
+     * @return \Net_SFTP
      */
     public function getConnection()
     {
@@ -101,8 +111,9 @@ class Remote {
     }
 
     /**
-     * Gets the config array for the current server
-     * @return [type] [description]
+     * Get the config array for the current server.
+     * 
+     * @return array
      */
     public function getConfig() 
     {
@@ -110,13 +121,15 @@ class Remote {
     }
 
     /**
-     * Transfers any other methods to the ssh object
-     * @param  [type] $method [description]
-     * @param  [type] $args   [description]
-     * @return [type]         [description]
+     * Transfer any other methods to the ssh object.
+     * 
+     * @param  string $method
+     * @param  array $args
+     * @return mixed
      */
-    public function __call($method, $args) {
-        return call_user_func_array([ $this->ssh, $method ], $args);
+    public function __call($method, $args) 
+    {
+        return call_user_func_array([$this->ssh, $method], $args);
     }
 
 }
