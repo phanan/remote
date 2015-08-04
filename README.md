@@ -25,12 +25,14 @@ After the package is downloaded, open `config/app.php` and add its service provi
 ``` php
     'providers' => [
 
-        // ...
-        'App\Providers\ConfigServiceProvider',
-        'App\Providers\EventServiceProvider',
-        'App\Providers\RouteServiceProvider',
+        /*
+         * Application Service Providers...
+         */
+        App\Providers\AppServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
 
-        'PhanAn\Remote\RemoteServiceProvider',
+        PhanAn\Remote\RemoteServiceProvider::class,
 
     ],
 ```
@@ -50,8 +52,11 @@ Using `Remote` is very simple: Just initialize a `PhanAn\Remote\Remote` object, 
 Here's where the magic happens. Literally. `Remote` makes use of the magic function `__call()` to pass all unrecognized methods to the `phpseclib\Net\SFTP` object underneath. Which means, you can call any `phpseclib\Net\SFTP` method directly on a `Remote` object:
 
 ``` php
-<?php namespace App\Http\Controllers;
+<?php 
 
+namespace App\Http\Controllers;
+
+use Exception;
 use PhanAn\Remote\Remote;
 
 class RemoteController extends Controller {
@@ -71,9 +76,9 @@ class RemoteController extends Controller {
         // Execute a command
         $dir_content = $connection->exec('ls -a');
 
-        // Get some standard error
+        // Get some standard errors
         if ($error = $connection->getStdError()) {
-            throw new \Exception("Houston, we have a problem: $error");
+            throw new Exception("Houston, we have a problem: $error");
         }
     }
 
