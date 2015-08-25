@@ -7,7 +7,7 @@ use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
 use Net_SFTP;
 
-class Remote extends \PHPUnit_Framework_TestCase
+class RemoteTest extends \PHPUnit_Framework_TestCase
 {
     public $app;
     public $remote;
