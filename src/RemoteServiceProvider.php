@@ -1,9 +1,11 @@
-<?php namespace PhanAn\Remote;
+<?php
+
+namespace PhanAn\Remote;
 
 use Illuminate\Support\ServiceProvider;
 
-class RemoteServiceProvider extends ServiceProvider {
-
+class RemoteServiceProvider extends ServiceProvider
+{
     /**
      * Bootstrap the application events.
      *
@@ -23,7 +25,5 @@ class RemoteServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        
     }
-
 }
