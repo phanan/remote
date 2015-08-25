@@ -1,13 +1,10 @@
 <?php
 
-namespace PhanAn\Remote;
-
-use Exception;
 use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
-use Net_SFTP;
+use PhanAn\Remote\Remote;
 
-class RemoteTest extends \PHPUnit_Framework_TestCase
+class RemoteTest extends PHPUnit_Framework_TestCase
 {
     public $app;
     public $remote;
