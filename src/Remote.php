@@ -1,19 +1,20 @@
-<?php 
+<?php
+
 
 namespace PhanAn\Remote;
 
-use Net_SFTP;
 use Crypt_RSA;
 use Exception;
 use InvalidArgumentException;
+use Net_SFTP;
 
-class Remote 
+class Remote
 {
-
     /**
-     * Name of the connection/environment
+     * Name of the connection/environment.
      * 
      * @see  config/remote.php
+     *
      * @var string
      */
     private $env;
@@ -28,17 +29,17 @@ class Remote
     /**
      * Are we in yet?
      * 
-     * @var boolean
+     * @var bool
      */
-    private $in = FALSE;
+    private $in = false;
 
     /**
      * Initialize a Remote object.
      * 
-     * @param string  $connection_name Name of the connection. See config/remote.php
-     * @param boolean $auto_login      Should we try logging in right away? 
+     * @param string $connection_name Name of the connection. See config/remote.php
+     * @param bool   $auto_login      Should we try logging in right away? 
      */
-    public function __construct($connection_name = NULL, $auto_login = TRUE)
+    public function __construct($connection_name = null, $auto_login = true)
     {
         if (!$connection_name) {
             $connection_name = config('remote.default');
@@ -53,7 +54,7 @@ class Remote
         $this->ssh = new Net_SFTP($this->config('host'), $this->config('port'));
 
         if ($auto_login) {
-            $this->login();    
+            $this->login();
         }
     }
 
@@ -92,12 +93,13 @@ class Remote
      * Get a config value of the current env.
      * Just a tiny helper so that we don't need to check if a key is set.
      * 
-     * @param  string $key The configuration key
+     * @param string $key The configuration key
+     *
      * @return mixed
      */
     private function config($key)
     {
-        return config("remote.connections.{$this->env}.$key", NULL);
+        return config("remote.connections.{$this->env}.$key", null);
     }
 
     /**
@@ -115,7 +117,7 @@ class Remote
      * 
      * @return array
      */
-    public function getConfig() 
+    public function getConfig()
     {
         return config("remote.connections.{$this->env}");
     }
@@ -123,13 +125,13 @@ class Remote
     /**
      * Transfer any other methods to the ssh object.
      * 
-     * @param  string $method
-     * @param  array $args
+     * @param string $method
+     * @param array  $args
+     *
      * @return mixed
      */
-    public function __call($method, $args) 
+    public function __call($method, $args)
     {
         return call_user_func_array([$this->ssh, $method], $args);
     }
-
 }

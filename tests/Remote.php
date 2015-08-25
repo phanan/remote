@@ -1,16 +1,16 @@
-<?php namespace PhanAn\Remote;
+<?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Config\Repository;
-use PhanAn\Remote\Remote;
-use Net_SFTP;
+namespace PhanAn\Remote;
+
 use Exception;
+use Illuminate\Config\Repository;
+use Illuminate\Foundation\Application;
+use Net_SFTP;
 
-class RemoteTest extends \PHPUnit_Framework_TestCase {
-
-    var $app;
-    var $remote;
+class Remote extends \PHPUnit_Framework_TestCase
+{
+    public $app;
+    public $remote;
 
     public function setUp()
     {
@@ -23,10 +23,10 @@ class RemoteTest extends \PHPUnit_Framework_TestCase {
         $this->app->instance('config', new Repository());
 
         // load the default config
-        $this->app['config']->set('remote', require basename(__DIR__) . '/../src/config.php');
+        $this->app['config']->set('remote', require basename(__DIR__).'/../src/config.php');
 
         // init the remote connection without logging in
-        $this->remote = new Remote('production', FALSE);
+        $this->remote = new Remote('production', false);
     }
 
     public function testConfigLoadedCorrectly()
@@ -34,7 +34,7 @@ class RemoteTest extends \PHPUnit_Framework_TestCase {
         $config = $this->remote->getConfig();
         $this->assertEquals($config['host'], '1.2.3.4');
     }
-    
+
     public function testConnectionInitialized()
     {
         $this->assertInstanceOf('Net_SFTP', $this->remote->getConnection());
@@ -53,5 +53,4 @@ class RemoteTest extends \PHPUnit_Framework_TestCase {
         // we expect the login to fail
         $this->assertStringStartsWith('Cannot connect to', $msg);
     }
-
 }
