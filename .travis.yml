@@ -6,6 +6,7 @@ php:
 branches:
   only:
     - master
+    - conf_array_support
 
 before_script:
   - curl -s http://getcomposer.org/installer | php
