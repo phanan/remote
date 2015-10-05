@@ -16,7 +16,7 @@ First, require `phanan/remote` into your `composer.json` and run `composer updat
 ```
     "require": {
         "laravel/framework": "5.1.*",
-        "phanan/remote": "~1.*"
+        "phanan/remote": "~2.*"
     },
 ```
 
