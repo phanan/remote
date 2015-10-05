@@ -2,10 +2,10 @@
 
 namespace PhanAn\Remote;
 
-use Crypt_RSA;
 use Exception;
 use InvalidArgumentException;
-use Net_SFTP;
+use phpseclib\Crypt\RSA;
+use phpseclib\Net\SSH2;
 
 class Remote
 {
@@ -21,7 +21,7 @@ class Remote
     /**
      * The SSH object. The main horse. The unsung hero.
      *
-     * @var \Net_SFTP
+     * @var \phpseclib\Net\SSH2
      */
     private $ssh;
 
@@ -56,7 +56,7 @@ class Remote
             }
         }
 
-        $this->ssh = new Net_SFTP($this->config('host'), $this->config('port'));
+        $this->ssh = new SSH2($this->config('host'), $this->config('port'));
 
         if ($auto_login) {
             $this->login();
@@ -77,7 +77,7 @@ class Remote
 
         if ($this->config('key')) {
             // We prefer logging in via keys
-            $key = new Crypt_RSA();
+            $key = new RSA();
 
             if ($phrase = $this->config('keyphrase')) {
                 $key->setPassword($phrase);
@@ -110,7 +110,7 @@ class Remote
     /**
      * Get the SSH connection.
      *
-     * @return \Net_SFTP
+     * @return \phpseclib\Net\SSH2
      */
     public function getConnection()
     {

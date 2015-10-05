@@ -51,11 +51,11 @@ class RemoteTest extends PHPUnit_Framework_TestCase
     {
         // Log in via env config key
         $this->remote = new Remote('production', false);
-        $this->assertInstanceOf('Net_SFTP', $this->remote->getConnection());
+        $this->assertInstanceOf('phpseclib\Net\SSH2', $this->remote->getConnection());
 
         // Log in via config array
         $this->remote = new Remote($this->app['config']['remote']['connections']['staging'], false);
-        $this->assertInstanceOf('Net_SFTP', $this->remote->getConnection());
+        $this->assertInstanceOf('phpseclib\Net\SSH2', $this->remote->getConnection());
     }
 
     public function testLoginUsingEnvKey()
