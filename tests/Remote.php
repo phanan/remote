@@ -20,7 +20,7 @@ class RemoteTest extends PHPUnit_Framework_TestCase
         $this->app->instance('config', new Repository());
 
         // load the default config
-        $this->app['config']->set('remote', require basename(__DIR__) . '/../src/config.php');
+        $this->app['config']->set('remote', require basename(__DIR__).'/../src/config.php');
     }
 
     public function testConfigLoadedCorrectly()
