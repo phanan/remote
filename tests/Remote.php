@@ -20,7 +20,7 @@ class RemoteTest extends PHPUnit_Framework_TestCase
         $this->app->instance('config', new Repository());
 
         // load the default config
-        $this->app['config']->set('remote', require basename(__DIR__).'/../src/config.php');
+        $this->app['config']->set('remote', require basename(__DIR__) . '/../src/config.php');
     }
 
     public function testConfigLoadedCorrectly()
@@ -51,11 +51,11 @@ class RemoteTest extends PHPUnit_Framework_TestCase
     {
         // Log in via env config key
         $this->remote = new Remote('production', false);
-        $this->assertInstanceOf('phpseclib\Net\SSH2', $this->remote->getConnection());
+        $this->assertInstanceOf('phpseclib\Net\SFTP', $this->remote->getConnection());
 
         // Log in via config array
         $this->remote = new Remote($this->app['config']['remote']['connections']['staging'], false);
-        $this->assertInstanceOf('phpseclib\Net\SSH2', $this->remote->getConnection());
+        $this->assertInstanceOf('phpseclib\Net\SFTP', $this->remote->getConnection());
     }
 
     public function testLoginUsingEnvKey()
