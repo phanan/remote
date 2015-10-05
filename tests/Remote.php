@@ -69,7 +69,7 @@ class RemoteTest extends PHPUnit_Framework_TestCase
         }
 
         // we expect the login to fail
-        $this->assertStringStartsWith('Cannot connect to', $msg);
+        $this->assertTrue(starts_with($msg, 'Cannot connect to') || starts_with($msg, 'Failed to log in.'));
     }
 
     public function testLoginUsingConfigArray()
@@ -83,6 +83,6 @@ class RemoteTest extends PHPUnit_Framework_TestCase
         }
 
         // we expect the login to fail
-        $this->assertStringStartsWith('Cannot connect to', $msg);
+        $this->assertTrue(starts_with($msg, 'Cannot connect to') || starts_with($msg, 'Failed to log in.'));
     }
 }
