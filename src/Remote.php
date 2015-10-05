@@ -41,7 +41,7 @@ class Remote
      *
      * @return void
      */
-    public function __construct($env = null, $auto_login = true)
+    public function __construct($env = '', $auto_login = true)
     {
         // If the user is supplying an array, we assume it to be the configuration array and will just use it directly.
         if (is_array($env)) {
