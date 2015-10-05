@@ -1,57 +1,62 @@
 <?php
 
-
 namespace PhanAn\Remote;
 
-use Crypt_RSA;
 use Exception;
 use InvalidArgumentException;
-use Net_SFTP;
+use phpseclib\Crypt\RSA;
+use phpseclib\Net\SSH2;
 
 class Remote
 {
     /**
-     * Name of the connection/environment.
-     * 
+     * The configuration array of the current connection/environment.
+     *
      * @see  config/remote.php
      *
-     * @var string
+     * @var array
      */
-    private $env;
+    private $config;
 
     /**
      * The SSH object. The main horse. The unsung hero.
-     * 
-     * @var \Net_SFTP
+     *
+     * @var \phpseclib\Net\SSH2
      */
     private $ssh;
 
     /**
      * Are we in yet?
-     * 
+     *
      * @var bool
      */
     private $in = false;
 
     /**
      * Initialize a Remote object.
-     * 
-     * @param string $connection_name Name of the connection. See config/remote.php
-     * @param bool   $auto_login      Should we try logging in right away? 
+     *
+     * @param string|array $connection Key of the connection (see config/remote.php),
+     *                                 or the connection config array.
+     * @param bool         $auto_login Should we try logging in right away?
+     *
+     * @return void
      */
-    public function __construct($connection_name = null, $auto_login = true)
+    public function __construct($env = '', $auto_login = true)
     {
-        if (!$connection_name) {
-            $connection_name = config('remote.default');
+        // If the user is supplying an array, we assume it to be the configuration array and will just use it directly.
+        if (is_array($env)) {
+            $this->config = $env;
+        }
+        // Otherwise, we rely on the config array found in config/remote.php
+        else {
+            $env = $env ?: config('remote.default');
+
+            if (!$this->config = config("remote.connections.$env")) {
+                throw new InvalidArgumentException("No configuration found for `$env` server.");
+            }
         }
 
-        $this->env = $connection_name;
-
-        if (!config("remote.connections.{$this->env}")) {
-            throw new InvalidArgumentException("No configuration found for `{$this->env}` server.");
-        }
-
-        $this->ssh = new Net_SFTP($this->config('host'), $this->config('port'));
+        $this->ssh = new SSH2($this->config('host'), $this->config('port'));
 
         if ($auto_login) {
             $this->login();
@@ -60,7 +65,7 @@ class Remote
 
     /**
      * Log into the server.
-     * 
+     *
      * @return void
      */
     public function login()
@@ -72,7 +77,7 @@ class Remote
 
         if ($this->config('key')) {
             // We prefer logging in via keys
-            $key = new Crypt_RSA();
+            $key = new RSA();
 
             if ($phrase = $this->config('keyphrase')) {
                 $key->setPassword($phrase);
@@ -92,20 +97,20 @@ class Remote
     /**
      * Get a config value of the current env.
      * Just a tiny helper so that we don't need to check if a key is set.
-     * 
+     *
      * @param string $key The configuration key
      *
      * @return mixed
      */
     private function config($key)
     {
-        return config("remote.connections.{$this->env}.$key", null);
+        return array_get($this->config, $key);
     }
 
     /**
      * Get the SSH connection.
-     * 
-     * @return \Net_SFTP
+     *
+     * @return \phpseclib\Net\SSH2
      */
     public function getConnection()
     {
@@ -114,17 +119,17 @@ class Remote
 
     /**
      * Get the config array for the current server.
-     * 
+     *
      * @return array
      */
     public function getConfig()
     {
-        return config("remote.connections.{$this->env}");
+        return $this->config;
     }
 
     /**
      * Transfer any other methods to the ssh object.
-     * 
+     *
      * @param string $method
      * @param array  $args
      *

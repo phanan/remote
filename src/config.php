@@ -11,7 +11,7 @@ return [
     | operations. This name should correspond to a connection name below
     | in the server list. Each connection will be manually accessible.
     |
-    */
+     */
 
     'default' => 'production',
 
@@ -27,31 +27,31 @@ return [
     | - port
     | - username
     | - key and keyphrase if you are SSH'ing using authorized keys
-    | - password if you're using a password. 
+    | - password if you're using a password.
     |
     | Note: login with key has higher priority. Which means, Remote will only
     | attempt to log in via username/password if key is empty.
     |
-    */
+     */
 
     'connections' => [
 
         'production' => [
-            'host'       => '1.2.3.4',
-            'port'       => 22,
-            'username'   => 'root',
-            'key'        => '/absolute/path/to/.ssh/id_rsa',
-            'keyphrase'  => '',
-            'password'   => '',
+            'host'      => '127.0.0.1',
+            'port'      => 22,
+            'username'  => 'root',
+            'key'       => dirname(__FILE__).'./../tests/keys/id_rsa',
+            'keyphrase' => '',
+            'password'  => '',
         ],
 
-        'staging'   => [
-            'host'       => '4.3.2.1',
-            'port'       => 22,
-            'username'   => 'dev',
-            'key'        => '',
-            'keyphrase'  => '',
-            'password'   => 'SoSecureMuchWow',
+        'staging' => [
+            'host'      => '::1',
+            'port'      => 22,
+            'username'  => 'dev',
+            'key'       => '',
+            'keyphrase' => '',
+            'password'  => 'SoSecureMuchWow',
         ],
 
     ],
