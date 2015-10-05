@@ -50,7 +50,7 @@ Using `Remote` is dead simple: Just initialize a `PhanAn\Remote\Remote` object, 
 * `$env` (`string|array`): The key of the remote connection array found in `config/remote.php` if a string, or the configuration array itself if an array. Defaults to an empty string, in which case the default connection will be used.
 * `$auto_login` (`boolean`): Whether or not the connection should attempt to log into the remote server upon class construction. Defaults to `true`.
 
-Here's where the magic happens. Like, literally. `Remote` makes use of the magic function `__call()` to pass all unrecognized methods to the `phpseclib\Net\SFTP` object underneath. Which means, you can call any `phpseclib\Net\SFTP` method directly on a `Remote` object:
+Here's where the magic happens. Like, literally. `Remote` makes use of the magic function `__call()` to pass all unrecognized methods to the `phpseclib\Net\SSH2` object underneath. Which means, you can call any `phpseclib\Net\SSH2` method directly on a `Remote` object:
 
 ``` php
 <?php
@@ -77,7 +77,7 @@ class RemoteController extends Controller
         //     'password' => 'SoIPv6MuchModern',
         // ]);
 
-        // All methods below are from \phpseclib\Net\SFTP, not Remote itself! Magic!
+        // All methods below are from \phpseclib\Net\SSH2, not Remote itself! Magic!
 
         // Create a file with some dummy content
         $connection->put('doge', 'Much remote so convenience wow.');
@@ -94,7 +94,7 @@ class RemoteController extends Controller
 
 ```
 
-Check phpseclib's official [SFTP Feature List](http://phpseclib.sourceforge.net/sftp/intro.html) for details of what you can do.
+Check phpseclib's official [SFTP Feature List](http://phpseclib.sourceforge.net/ssh/intro.html) for details of what you can do.
 
 ## License
 MIT © [Phan An](http://phanan.net)
