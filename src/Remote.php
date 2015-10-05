@@ -37,7 +37,7 @@ class Remote
      *
      * @param string|array $connection Key of the connection (see config/remote.php),
      *                                 or the connection config array.
-     * @param bool   $auto_login      Should we try logging in right away?
+     * @param bool         $auto_login Should we try logging in right away?
      *
      * @return void
      */

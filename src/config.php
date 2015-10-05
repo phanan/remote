@@ -37,21 +37,21 @@ return [
     'connections' => [
 
         'production' => [
-            'host' => '127.0.0.1',
-            'port' => 22,
-            'username' => 'root',
-            'key' => dirname(__FILE__) . './../tests/keys/id_rsa',
+            'host'      => '127.0.0.1',
+            'port'      => 22,
+            'username'  => 'root',
+            'key'       => dirname(__FILE__).'./../tests/keys/id_rsa',
             'keyphrase' => '',
-            'password' => '',
+            'password'  => '',
         ],
 
         'staging' => [
-            'host' => '::1',
-            'port' => 22,
-            'username' => 'dev',
-            'key' => '',
+            'host'      => '::1',
+            'port'      => 22,
+            'username'  => 'dev',
+            'key'       => '',
             'keyphrase' => '',
-            'password' => 'SoSecureMuchWow',
+            'password'  => 'SoSecureMuchWow',
         ],
 
     ],
