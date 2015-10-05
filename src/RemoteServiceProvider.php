@@ -14,7 +14,7 @@ class RemoteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/config.php' => config_path('remote.php'),
+            __DIR__ . '/config.php' => config_path('remote.php'),
         ]);
     }
 

@@ -20,29 +20,64 @@ class RemoteTest extends PHPUnit_Framework_TestCase
         $this->app->instance('config', new Repository());
 
         // load the default config
-        $this->app['config']->set('remote', require basename(__DIR__).'/../src/config.php');
-
-        // init the remote connection without logging in
-        $this->remote = new Remote('production', false);
+        $this->app['config']->set('remote', require basename(__DIR__) . '/../src/config.php');
     }
 
     public function testConfigLoadedCorrectly()
     {
-        $config = $this->remote->getConfig();
-        $this->assertEquals($config['host'], '1.2.3.4');
+        // Log in via env config key
+        $this->remote = new Remote('production', false);
+        $this->assertEquals($this->remote->getConfig()['host'], '127.0.0.1');
+
+        // Log in via config array
+        $this->remote = new Remote($this->app['config']['remote']['connections']['staging'], false);
+        $this->assertEquals($this->remote->getConfig()['host'], '::1');
+    }
+
+    public function testUnknownEnv()
+    {
+        $err = null;
+
+        try {
+            $this->remote = new Remote('lorem');
+        } catch (Exception $e) {
+            $err = $e;
+        }
+
+        $this->assertInstanceOf('InvalidArgumentException', $e);
     }
 
     public function testConnectionInitialized()
     {
+        // Log in via env config key
+        $this->remote = new Remote('production', false);
+        $this->assertInstanceOf('Net_SFTP', $this->remote->getConnection());
+
+        // Log in via config array
+        $this->remote = new Remote($this->app['config']['remote']['connections']['staging'], false);
         $this->assertInstanceOf('Net_SFTP', $this->remote->getConnection());
     }
 
-    public function testLogin()
+    public function testLoginUsingEnvKey()
     {
         $msg = '';
 
         try {
-            $this->remote = new Remote('staging');
+            $this->remote = new Remote('production');
+        } catch (Exception $e) {
+            $msg = $e->getMessage();
+        }
+
+        // we expect the login to fail
+        $this->assertStringStartsWith('Cannot connect to', $msg);
+    }
+
+    public function testLoginUsingConfigArray()
+    {
+        $msg = '';
+
+        try {
+            $this->remote = new Remote($this->app['config']['remote']['connections']['staging']);
         } catch (Exception $e) {
             $msg = $e->getMessage();
         }
