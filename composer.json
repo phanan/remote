@@ -20,7 +20,7 @@
     "phpseclib/phpseclib": "2.0.*"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.8.36",
+    "phpunit/phpunit": "9.0.1",
     "laravel/framework": "5.8.36"
   },
   "autoload": {
